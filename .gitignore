@@ -1,7 +1,4 @@
+js/config.js
 config.js
-.DS_Store
-node_modules/
-*.swp
-*.swo
-*~
-.vscode/
+.env
+.env.local

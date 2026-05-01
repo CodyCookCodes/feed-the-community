@@ -126,7 +126,6 @@ header::before {
 .content {
   display: grid;
   grid-template-columns: 1fr;
-  min-height: calc(100vh - 200px);
   gap: 0;
   max-width: 1400px;
   margin: 0 auto;
@@ -134,8 +133,10 @@ header::before {
 
 @media (min-width: 1024px) {
   .content {
+    display: grid;
     grid-template-columns: 1fr 380px;
-    gap: 0;
+    /* This calculation subtracts the height of your header and search bar */
+    height: calc(100vh - 140px); 
   }
 }
 
@@ -157,14 +158,19 @@ header::before {
 
 /* ─────────────────── PANTRY LIST ─────────────────── */
 .pantries-list {
-  overflow-y: auto;
-  max-height: 600px;
+  overflow-y: auto; /* Adds a scrollbar ONLY to this list when content overflows */
+  flex: 1;          /* Tells the list to take up all available space in its container */
 }
 
-@media (min-width: 1024px) {
-  .pantries-list {
-    max-height: calc(100vh - 200px);
-  }
+.list-view {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;    /* Important: allows the flex item to shrink below its content size */
+}
+
+.pantries-list {
+  overflow-y: auto;
+  flex: 1;
 }
 
 .pantry-card {

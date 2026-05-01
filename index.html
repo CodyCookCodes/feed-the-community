@@ -6,6 +6,15 @@
   <title>Feed the Bay - East Bay Food Pantry Finder</title>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/config.js"></script>
+  <script>
+    // Build the Google Maps API URL dynamically
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.MAPS_API_KEY}&libraries=maps,marker`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  </script>
 </head>
 <body>
   <!-- HEADER -->
@@ -91,11 +100,14 @@
 
       <div class="action-buttons">
         <a class="btn btn-primary" id="modalMapLink" href="#" target="_blank">Open in Maps</a>
-        <button class="btn btn-secondary" id="modalCall">Call</button>
       </div>
     </div>
   </div>
 
+  <!-- Load modules in order -->
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

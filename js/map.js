@@ -11,7 +11,7 @@ function initMap() {
   const oaklandCenter = { lat: 37.81835, lng: -122.2620 };
   
   map = new google.maps.Map(mapEl, {
-    zoom: 10,
+    zoom: 12,
     center: oaklandCenter,
     mapTypeId: 'roadmap',
     styles: [

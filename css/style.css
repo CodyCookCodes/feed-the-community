@@ -369,20 +369,8 @@ header::before {
 
 /* ─────────────────── RESPONSIVE ─────────────────── */
 @media (max-width: 1023px) {
-  .content {
-    display: block;
-  }
-
-  .pantries-list {
-    max-height: none;
-  }
-
-  .pantry-card {
-    padding: 14px 16px;
-  }
-
   .view-toggle {
-    display: none;
+    display: flex;
   }
 
   .map-view {
@@ -394,10 +382,31 @@ header::before {
   }
 
   .list-view {
-    display: block;
+    display: none;
   }
 
   .list-view.active {
     display: block;
+  }
+
+  .pantries-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .pantry-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pantry-card:hover {
+    border-left: 4px solid var(--primary);
+    padding-left: 12px;
   }
 }

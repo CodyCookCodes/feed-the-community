@@ -1,0 +1,404 @@
+:root {
+  --primary: #D4705B;
+  --secondary: #2D5A3D;
+  --accent: #F4D9C8;
+  --dark: #1a1a1a;
+  --light: #FEFBF6;
+  --text: #2a2a2a;
+  --muted: #6a6a6a;
+  --border: #E8DDD5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--light);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ─────────────────── HEADER ─────────────────── */
+header {
+  background: linear-gradient(135deg, var(--secondary) 0%, #1f4426 100%);
+  padding: 24px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.05"/><circle cx="60" cy="40" r="1.5" fill="white" opacity="0.05"/><circle cx="80" cy="70" r="2" fill="white" opacity="0.05"/><circle cx="40" cy="80" r="1" fill="white" opacity="0.05"/></svg>');
+  pointer-events: none;
+}
+
+.header-inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo {
+  font-family: 'Merriweather', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.tagline {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* ─────────────────── SEARCH BAR ─────────────────── */
+.search-container {
+  background: var(--light);
+  padding: 20px 16px;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(212, 112, 91, 0.1);
+}
+
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--accent);
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.toggle-btn {
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.toggle-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ─────────────────── MAP SECTION ─────────────────── */
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: calc(100vh - 200px);
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr 380px;
+    gap: 0;
+  }
+}
+
+#map {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, #e8f0ed 0%, #f4d9c8 100%);
+  border-bottom: 2px solid var(--border);
+}
+
+@media (min-width: 1024px) {
+  #map {
+    height: 100%;
+    border-bottom: none;
+    border-right: 2px solid var(--border);
+    order: -1;
+  }
+}
+
+/* ─────────────────── PANTRY LIST ─────────────────── */
+.pantries-list {
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+@media (min-width: 1024px) {
+  .pantries-list {
+    max-height: calc(100vh - 200px);
+  }
+}
+
+.pantry-card {
+  padding: 18px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.pantry-card:hover {
+  background: var(--accent);
+  border-left: 4px solid var(--primary);
+  padding-left: 14px;
+}
+
+.pantry-name {
+  font-family: 'Merriweather', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.pantry-address {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.pantry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.meta-tag {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: var(--secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ─────────────────── DETAIL MODAL ─────────────────── */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+
+.modal.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--accent);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.close-modal:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.modal-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 16px;
+  padding-right: 40px;
+}
+
+.info-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-section:last-child {
+  border-bottom: none;
+}
+
+.section-label {
+  font-weight: 600;
+  color: var(--secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.section-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #c5614d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 112, 91, 0.2);
+}
+
+.btn-secondary {
+  background: var(--accent);
+  color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background: #e8c8b6;
+}
+
+/* ─────────────────── EMPTY STATE ─────────────────── */
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.empty-state-text {
+  font-size: 0.95rem;
+}
+
+/* ─────────────────── RESPONSIVE ─────────────────── */
+@media (max-width: 1023px) {
+  .content {
+    display: block;
+  }
+
+  .pantries-list {
+    max-height: none;
+  }
+
+  .pantry-card {
+    padding: 14px 16px;
+  }
+
+  .view-toggle {
+    display: none;
+  }
+
+  .map-view {
+    display: none;
+  }
+
+  .map-view.active {
+    display: block;
+  }
+
+  .list-view {
+    display: block;
+  }
+
+  .list-view.active {
+    display: block;
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed the Bay - East Bay Food Pantry Finder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">🥕 Feed the Bay</div>
+      <p class="tagline">Find free food resources in the East Bay</p>
+    </div>
+  </header>
+
+  <!-- SEARCH & TOGGLE -->
+  <div class="search-container">
+    <div class="search-wrapper">
+      <input 
+        type="text" 
+        class="search-input" 
+        id="searchInput" 
+        placeholder="Search by name, neighborhood, or food type..."
+      >
+      <div class="view-toggle">
+        <button class="toggle-btn active" data-view="map">📍 Map</button>
+        <button class="toggle-btn" data-view="list">📋 List</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <!-- MAP VIEW -->
+    <div id="map" class="map-view active"></div>
+
+    <!-- LIST VIEW -->
+    <div class="list-view">
+      <div class="pantries-list" id="pantryList"></div>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal" id="pantryModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+
+      <div class="info-section">
+        <div class="section-label">📍 Location</div>
+        <div class="section-content" id="modalAddress"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">🕐 Hours</div>
+        <div class="section-content" id="modalHours"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">📞 Contact</div>
+        <div class="section-content" id="modalPhone"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">✓ Eligibility</div>
+        <div class="section-content" id="modalEligibility"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">🛒 What's Available</div>
+        <div class="section-content" id="modalFoodTypes"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">📅 Distribution Schedule</div>
+        <div class="section-content" id="modalFrequency"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">💝 Support This Pantry</div>
+        <div class="section-content" id="modalDonations"></div>
+      </div>
+
+      <div class="info-section">
+        <div class="section-label">🤝 Volunteer</div>
+        <div class="section-content" id="modalVolunteer"></div>
+      </div>
+
+      <div class="action-buttons">
+        <a class="btn btn-primary" id="modalMapLink" href="#" target="_blank">Open in Maps</a>
+        <button class="btn btn-secondary" id="modalCall">Call</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

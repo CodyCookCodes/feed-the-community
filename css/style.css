@@ -410,3 +410,23 @@ header::before {
     padding-left: 12px;
   }
 }
+@media (max-width: 1023px) {
+  .view-toggle {
+    display: flex;
+  }
+
+  .map-view {
+    display: block;  /* Show map by default on mobile */
+  }
+
+  .map-view.active {
+    display: block;
+  }
+
+  .list-view {
+    display: none;  /* Hide list by default */
+  }
+
+  .list-view.active {
+    display: block;
+  }

@@ -3,98 +3,176 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feed the Bay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Bay Area Free</title>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Build the Google Maps API URL dynamically
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.MAPS_API_KEY}&libraries=maps,marker`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.MAPS_API_KEY}&libraries=maps,marker&loading=async&v=weekly`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
   </script>
 </head>
 <body>
-  <!-- HEADER -->
+  <!-- LOADING SCREEN — removed by JS once init completes -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">Bay Area Free</div>
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <div class="loading-tagline">Finding free resources near you…</div>
+    </div>
+  </div>
+
+  <!-- HEADER (desktop only) -->
   <header>
     <div class="header-inner">
-      <div class="logo">Feed the Bay</div>
-      <p class="tagline">Find free food resources in the East Bay</p>
+      <div class="logo">Bay Area Free</div>
+      <p class="tagline">Free food, supplies, and services across the Bay Area</p>
     </div>
   </header>
 
-  <!-- SEARCH & TOGGLE -->
+  <!-- DESKTOP SEARCH + FILTER (hidden on mobile) -->
   <div class="search-container">
     <div class="search-wrapper">
-      <input 
-        type="text" 
-        class="search-input" 
-        id="searchInput" 
-        placeholder="Search by name, neighborhood, or food type..."
+      <input
+        type="text"
+        class="search-input"
+        id="searchInputDesktop"
+        placeholder="Search by name, neighborhood, or resource type..."
       >
-      <div class="view-toggle">
-        <button class="toggle-btn active" data-view="map">Map</button>
-        <button class="toggle-btn" data-view="list">List</button>
-      </div>
     </div>
+    <div class="filter-pills" id="filterPillsDesktop"></div>
   </div>
 
   <!-- CONTENT -->
   <div class="content">
-    <!-- MAP VIEW -->
-    <div id="map" class="map-view active"></div>
+    <div id="map"></div>
 
-    <!-- LIST VIEW -->
-    <div class="list-view">
-      <div class="pantries-list" id="pantryList"></div>
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-actions">
+        <button class="action-link pdf-open-btn">📄 Print resources nearby</button>
+      </div>
+      <div class="pantries-list" id="pantryListDesktop"></div>
+    </aside>
+  </div>
+
+  <!-- MOBILE BOTTOM SHEET -->
+  <div class="sheet" id="sheet" data-state="half" aria-label="Resource list">
+    <div class="sheet-handle-area" id="sheetHandleArea">
+      <div class="sheet-handle" aria-hidden="true"></div>
+    </div>
+
+    <div class="sheet-header">
+      <div class="sheet-title">Bay Area Free</div>
+      <input
+        type="text"
+        class="search-input sheet-search"
+        id="searchInputMobile"
+        placeholder="Search resources..."
+      >
+      <div class="filter-pills" id="filterPillsMobile"></div>
+      <button class="action-link pdf-open-btn sheet-action">📄 Print resources nearby</button>
+    </div>
+
+    <div class="sheet-scroll" id="sheetScroll">
+      <div class="pantries-list" id="pantryListMobile"></div>
     </div>
   </div>
+
+  <!-- PDF GENERATION MODAL -->
+  <div class="modal" id="pdfModal">
+    <div class="modal-content pdf-modal-content">
+      <button class="close-modal" id="closePdfModal">&times;</button>
+      <h2 class="modal-title">Print resources nearby</h2>
+      <p class="pdf-modal-intro">
+        Pick a starting point and a radius. We'll generate a PDF list of free resources in that area.
+      </p>
+
+      <div class="pdf-step">
+        <div class="pdf-step-label">1. Pick a starting point</div>
+        <div class="pdf-pick-buttons">
+          <button class="btn btn-secondary" id="pdfPickGeo">Use my location</button>
+          <button class="btn btn-secondary" id="pdfPickMap">Tap on the map</button>
+        </div>
+        <p class="pdf-hint" id="pdfPickHint">
+          We'll show a circle on the map so you can see what's covered.
+        </p>
+      </div>
+
+      <div class="pdf-step">
+        <div class="pdf-step-label">2. Pick a radius</div>
+        <div class="radius-options">
+          <button class="radius-option" data-meters="805">10 min walk</button>
+          <button class="radius-option active" data-meters="1609">20 min walk</button>
+          <button class="radius-option" data-meters="2414">30 min walk</button>
+          <button class="radius-option" data-meters="4828">3 mile drive</button>
+        </div>
+      </div>
+
+      <div class="pdf-step">
+        <div class="pdf-step-label">3. Preview</div>
+        <p class="pdf-preview-count" id="pdfPreviewCount">
+          Pick a starting point above to see results.
+        </p>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="pdfGenerateBtn" disabled>Generate PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden printable container — html2pdf renders this to PDF -->
+  <div id="pdfPrintable" class="pdf-printable" aria-hidden="true"></div>
 
   <!-- DETAIL MODAL -->
   <div class="modal" id="pantryModal">
     <div class="modal-content">
       <button class="close-modal" id="closeModal">&times;</button>
+      <span class="modal-category-badge" id="modalCategoryBadge"></span>
       <h2 class="modal-title" id="modalTitle"></h2>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionAddress">
         <div class="section-label">📍 Location</div>
         <div class="section-content" id="modalAddress"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionHours">
         <div class="section-label">🕐 Hours</div>
         <div class="section-content" id="modalHours"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionPhone">
         <div class="section-label">📞 Contact</div>
         <div class="section-content" id="modalPhone"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionEligibility">
         <div class="section-label">✓ Eligibility</div>
         <div class="section-content" id="modalEligibility"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionFoodTypes">
         <div class="section-label">🛒 What's Available</div>
         <div class="section-content" id="modalFoodTypes"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionFrequency">
         <div class="section-label">📅 Distribution Schedule</div>
         <div class="section-content" id="modalFrequency"></div>
       </div>
 
-      <div class="info-section">
-        <div class="section-label">💝 Support This Pantry</div>
+      <div class="info-section" id="modalSectionDonations">
+        <div class="section-label">💝 Support This Resource</div>
         <div class="section-content" id="modalDonations"></div>
       </div>
 
-      <div class="info-section">
+      <div class="info-section" id="modalSectionVolunteer">
         <div class="section-label">🤝 Volunteer</div>
         <div class="section-content" id="modalVolunteer"></div>
       </div>
@@ -106,8 +184,12 @@
   </div>
 
   <!-- Load modules in order -->
+  <script src="js/categories.js"></script>
   <script src="js/data.js"></script>
   <script src="js/map.js"></script>
+  <script src="js/sheet.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/pdf.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -10,8 +10,8 @@ async function initMap() {
   const mapEl = document.getElementById('map');
 
   // Center on Oakland
-  const oaklandCenter = { lat: 37.81835, lng: -122.2620 };
-
+  const oaklandCenter = { lat: 37.4953, lng: -121.9909 };
+37.4953577, -121.9909104
   const { Map } = await google.maps.importLibrary('maps');
   const markerLib = await google.maps.importLibrary('marker');
   AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
